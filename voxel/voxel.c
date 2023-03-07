@@ -18,14 +18,16 @@ typedef struct {
 	float x;		// x position on the map
 	float y;		// y position on the map
 	float height;	// height of the camera
+	float angle;	// camera angle (radians, clockwise)
 	float zfar;		// distance of the camera looking forward
 } camera_t;
 
 camera_t camera = {
-	.x 		= 512,
-	.y 		= 512,
+	.x 		= 512.0,
+	.y 		= 512.0,
 	.height	= 150.0,
-	.zfar 	= 400
+	.angle	= 0.0,
+	.zfar 	= 400.0
 };
 
 /****************************************************************************/
@@ -33,16 +35,18 @@ camera_t camera = {
 /****************************************************************************/
 void processinput() {
 	if (keystate(KEY_UP)) {
-		camera.y++;
+		camera.x += cos(camera.angle);
+		camera.y += sin(camera.angle);
 	}
 	if (keystate(KEY_DOWN)) {
-		camera.y--;
+		camera.x -= cos(camera.angle);
+		camera.y -= sin(camera.angle);
 	}
 	if (keystate(KEY_LEFT)) {
-		camera.x--;
+		camera.angle -= 0.01;
 	}
 	if (keystate(KEY_RIGHT)) {
-		camera.x++;
+		camera.angle += 0.01;
 	}
 	if (keystate(KEY_E)) {
 		camera.height++;
@@ -78,12 +82,15 @@ int main(int argc, char* args[]) {
 		clearscreen();
 		
 		processinput();
-
-		float plx = -camera.zfar;
-		float ply = +camera.zfar;
 		
-		float prx = +camera.zfar;
-		float pry = +camera.zfar;
+		float sinangle = sin(camera.angle);
+		float cosangle = cos(camera.angle);
+
+		float plx = cosangle * camera.zfar + sinangle * camera.zfar;
+		float ply = sinangle * camera.zfar - cosangle * camera.zfar;
+		
+		float prx = cosangle * camera.zfar - sinangle * camera.zfar;
+		float pry = sinangle * camera.zfar + cosangle * camera.zfar;
 		
 		// Loop 320 rays from left to right
 		for (int i = 0; i < SCREEN_WIDTH; i++) {
