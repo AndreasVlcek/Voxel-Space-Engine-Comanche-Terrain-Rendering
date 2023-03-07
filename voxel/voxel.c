@@ -22,6 +22,7 @@ int main(int argc, char* args[]) {
 	// TODO: load the GIF files and load colormap and heightmap buffers
 	uint8_t palette[256 * 3];
 	int map_width, map_height, pal_count;
+	
 	colormap = loadgif("maps/colormap.gif", &map_width, &map_height, &pal_count, palette);
 	heightmap = loadgif("maps/heightmap.gif", &map_width, &map_height, NULL, NULL);
 	
@@ -47,5 +48,5 @@ int main(int argc, char* args[]) {
 			break;
 	}
 	
-	return 0;
+	return EXIT_SUCCESS;
 }
