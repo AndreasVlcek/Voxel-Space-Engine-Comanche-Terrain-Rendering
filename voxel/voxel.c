@@ -50,7 +50,26 @@ int main(int argc, char* args[]) {
 		waitvbl();
 		clearscreen();
 
-		// TODO: do some voxelspace magic!!!
+		float plx = -camera.zfar;
+		float ply = +camera.zfar;
+		
+		float prx = +camera.zfar;
+		float pry = +camera.zfar;
+		
+		// Loop 320 rays from left to right
+		for (int i = 0; i < SCREEN_WIDTH; i++) {
+			float delta_x = (plx + (prx - plx) / SCREEN_WIDTH * i) / camera.zfar;
+			float delta_y = (ply + (pry - ply) / SCREEN_WIDTH * i) / camera.zfar;
+			
+			float rx = camera.x;
+			float ry = camera.y;
+			
+			for (int z = 1; z < camera.zfar; z++) {
+				rx += delta_x;
+				ry += delta_y;
+				framebuffer[(SCREEN_WIDTH * (int)(ry/4)) + (int)(rx/4	)] = 0x19;
+			}
+		}
 		
 		framebuffer = swapbuffers();
 		
