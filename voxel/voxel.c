@@ -66,7 +66,7 @@ int main(int argc, char* args[]) {
 			
 			for (int z = 1; z < camera.zfar; z++) {
 				rx += delta_x;
-				ry += delta_y;
+				ry -= delta_y;
 				framebuffer[(SCREEN_WIDTH * (int)(ry/4)) + (int)(rx/4	)] = 0x19;
 			}
 		}
