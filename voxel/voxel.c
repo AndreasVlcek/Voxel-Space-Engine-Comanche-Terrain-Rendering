@@ -29,6 +29,24 @@ camera_t camera = {
 };
 
 /****************************************************************************/
+/* PROCESS KEYBOARD INPUT                                                   */
+/****************************************************************************/
+void processinput() {
+	if (keystate(KEY_UP)) {
+		camera.y++;
+	}
+	if (keystate(KEY_DOWN)) {
+		camera.y--;
+	}
+	if (keystate(KEY_LEFT)) {
+		camera.x--;
+	}
+	if (keystate(KEY_RIGHT)) {
+		camera.x++;
+	}
+}
+
+/****************************************************************************/
 /* MAIN                                                                     */
 /****************************************************************************/
 int main(int argc, char* args[]) {
@@ -52,6 +70,8 @@ int main(int argc, char* args[]) {
 	while(!shuttingdown()) {
 		waitvbl();
 		clearscreen();
+		
+		processinput();
 
 		float plx = -camera.zfar;
 		float ply = +camera.zfar;
