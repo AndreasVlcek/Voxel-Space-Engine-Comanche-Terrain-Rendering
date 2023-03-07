@@ -6,6 +6,7 @@
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 200
+#define SCALE_FACTOR 100.0
 
 /****************************************************************************/
 /* BUFFERS FOR HEIGHTMAP & COLORMAP                                         */
@@ -16,13 +17,15 @@ uint8_t* colormap = NULL; // Buffer/array to hold color values (1024*1024)
 typedef struct {
 	float x;		// x position on the map
 	float y;		// y position on the map
+	float height;	// height of the camera
 	float zfar;		// distance of the camera looking forward
 } camera_t;
 
 camera_t camera = {
-	.x = 512,
-	.y = 512,
-	.zfar = 400
+	.x 		= 512,
+	.y 		= 512,
+	.height	= 150.0,
+	.zfar 	= 400
 };
 
 /****************************************************************************/
@@ -73,7 +76,7 @@ int main(int argc, char* args[]) {
 				// Find the offset that we have to go and fetch values from the heightmap
 				int mapoffset = ((1024 * (int)(ry)) + (int)(rx));
 				
-				int heightonscreen = (int)((100.0 - heightmap[mapoffset]) / z * 100.0);
+				int heightonscreen = (int)((camera.height - heightmap[mapoffset]) / z * SCALE_FACTOR);
 				
 				if (heightonscreen < 0) {
 					heightonscreen = 0;
