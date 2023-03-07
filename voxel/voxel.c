@@ -44,6 +44,12 @@ void processinput() {
 	if (keystate(KEY_RIGHT)) {
 		camera.x++;
 	}
+	if (keystate(KEY_E)) {
+		camera.height++;
+	}
+	if (keystate(KEY_D)) {
+		camera.height--;
+	}
 }
 
 /****************************************************************************/
@@ -94,7 +100,7 @@ int main(int argc, char* args[]) {
 				ry -= delta_y;
 				
 				// Find the offset that we have to go and fetch values from the heightmap
-				int mapoffset = ((1024 * (int)(ry)) + (int)(rx));
+				int mapoffset = ((1024 * ((int)(ry) & 1023)) + ((int)(rx) & 1023));
 				
 				int heightonscreen = (int)((camera.height - heightmap[mapoffset]) / z * SCALE_FACTOR);
 				
