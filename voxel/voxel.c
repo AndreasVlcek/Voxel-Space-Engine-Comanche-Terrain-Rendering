@@ -13,6 +13,18 @@
 uint8_t* heightmap = NULL; // Buffer/array to hold height values (1024*1024)
 uint8_t* colormap = NULL; // Buffer/array to hold color values (1024*1024)
 
+typedef struct {
+	float x;		// x position on the map
+	float y;		// y position on the map
+	float zfar;		// distance of the camera looking forward
+} camera_t;
+
+camera_t camera = {
+	.x = 512,
+	.y = 512,
+	.zfar = 400
+};
+
 /****************************************************************************/
 /* MAIN                                                                     */
 /****************************************************************************/
@@ -38,9 +50,7 @@ int main(int argc, char* args[]) {
 		waitvbl();
 		clearscreen();
 
-		int x = 160;
-		int y = 100;
-		framebuffer[(SCREEN_WIDTH * y) + x] = 0x50;
+		// TODO: do some voxelspace magic!!!
 		
 		framebuffer = swapbuffers();
 		
