@@ -46,4 +46,6 @@ int main(int argc, char* args[]) {
 		if (keystate(KEY_ESCAPE))
 			break;
 	}
+	
+	return 0;
 }
