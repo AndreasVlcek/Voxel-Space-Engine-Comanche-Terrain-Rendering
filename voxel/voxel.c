@@ -64,10 +64,33 @@ int main(int argc, char* args[]) {
 			float rx = camera.x;
 			float ry = camera.y;
 			
+			float max_height = SCREEN_HEIGHT;
+			
 			for (int z = 1; z < camera.zfar; z++) {
 				rx += delta_x;
 				ry -= delta_y;
-				framebuffer[(SCREEN_WIDTH * (int)(ry/4)) + (int)(rx/4	)] = 0x19;
+				
+				// Find the offset that we have to go and fetch values from the heightmap
+				int mapoffset = ((1024 * (int)(ry)) + (int)(rx));
+				
+				int heightonscreen = heightmap[mapoffset];
+				if (heightonscreen < 0) {
+					heightonscreen = 0;
+				}
+				if (heightonscreen > SCREEN_HEIGHT) {
+					heightonscreen = SCREEN_HEIGHT - 1;
+				}
+				
+				// Only render terrain pixels if the new projected height is taller than the previous max-height
+				if (heightonscreen < max_height) {
+					// Draw pixels from previous max-height until the new projected height
+					for (int y = heightonscreen; y < max_height; y++) {
+						framebuffer[(SCREEN_WIDTH * y) + i] = (uint8_t)colormap[mapoffset];
+					}
+					max_height = heightonscreen;
+				}
+				
+				framebuffer[(SCREEN_WIDTH * (int)(ry/4)) + (int)(rx/4)] = 0x19;
 			}
 		}
 		
