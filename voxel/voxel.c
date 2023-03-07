@@ -73,7 +73,8 @@ int main(int argc, char* args[]) {
 				// Find the offset that we have to go and fetch values from the heightmap
 				int mapoffset = ((1024 * (int)(ry)) + (int)(rx));
 				
-				int heightonscreen = heightmap[mapoffset];
+				int heightonscreen = (int)((100.0 - heightmap[mapoffset]) / z * 100.0);
+				
 				if (heightonscreen < 0) {
 					heightonscreen = 0;
 				}
@@ -89,8 +90,6 @@ int main(int argc, char* args[]) {
 					}
 					max_height = heightonscreen;
 				}
-				
-				framebuffer[(SCREEN_WIDTH * (int)(ry/4)) + (int)(rx/4)] = 0x19;
 			}
 		}
 		
